@@ -1,0 +1,108 @@
+---
+title: "Incarceration of Asian American in the U.S. from 1990 to 2016"
+author: "Jimmy Cheong"
+date: "2/23/2022"
+output: html_document
+theme: ""
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(dbplyr)
+library(ggplot2)
+library(tidyverse)
+library(maps)
+library(knitr)
+source("../source/analysis.R")
+
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(out.width='1000px', dpi=300)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+# Introduction
+This project analysis incarceration trends in the U.S. to learn the situations/trends of incarceration of Asian American by comparing its trend to trend of incarceration of Whites.
+This report focuses on the count and rate of **Prison Population**, **Jail Population** of each races and compare their trends(*Prison/Jail Rate*, *Prison/Jail Rate Change*) against each other to learn the difference of incarceration trend by race.
+
+To be specific, we would put our eyes on variables including:
+
+`Population Count (Ages 15 to 64)`, `Jail Population Count`, and `Prison Population Count`
+
+among *AAPI(Asian American/Pacific Islander)* and *Whites*.
+
+However, this report only analysis data since 1990 to 2016 as data outside this period 1990 is mostly missing, incomplete, and were partly estimated.
+
+### Summary Information
+
+```{r summary,echo=FALSE}
+kable(summary_table)
+
+# Average Prison population per year: `r summary$average_prison_pop`
+# Highest Prison population in a year: `r summary$highest_p_rate_in_a_year`
+# Lowest Prison population in a year: `r summary$lowest_p_rate_in_a_year`
+# Highest Jail population in a year: `r summary$highest_j_rate_in_a_year`
+# Lowest Jail population in a year: `r summary$lowest_j_rate_in_a_year`
+# Prison increasement since 1990 in percentage: `r summary$p_increasement`
+# Jail increasement since 1990 in percentage: `r summary$j_increasement`
+```
+
+
+\
+
+# Trends over time chart
+The following chart shows the percentage population of AAPI/WHITE in Prison/Jail. This shows the trend in population rate who got into prison and jail for every year from 1990 to 2016.
+
+We could see that while both Prison/Jail population rate had increased over time for both races. The increasement of White is steeper while increasement of AAPI is has a relatively gentle slope.
+
+For the design, I've picked a color blind friendly color pattern and matched two sets of colors to each of the race*(Orange for AAPI, Blue for White)*.
+```{r tsc,echo=FALSE}
+plot(tsc)
+```
+
+\
+
+# Variable comparison chart
+
+The following two charts had shown and compared two trends involving percentage increasement of prison population and percentage increasement of total population from 1990 to 2016.
+As shown in the left chart, the population increasement of White in the period is very gentle while the population of AAPI had increase over 250% in the period.
+
+We should expect the percentage prison population of AAPI also increase in a similar fashion compare to AAPI total population's increasement. Just as the percentage jail population of AAPI does.
+However, the percentage increasement prison population of AAPI is no where near to **250%** but far greater, reaching over **4000%** since the year 2000.
+Which is 40 times the prison population back in 1990. On the other hand, the Prison/Jail population increase of White only **increased a little bit**.
+
+This surely shows a pattern where the rate of AAPI arrested into prison is greatly higher than White do.
+
+:::: {style="display: flex;"}
+
+::: {}
+
+```{r Variable comparison chart1,echo=FALSE}
+plot(chart_population_increasement)
+```
+:::
+
+::: {}
+
+```{r Variable comparison chart2,echo=FALSE}
+plot(chart_prison_jail_rate_increasement)
+```
+:::
+
+::::
+
+\
+
+# Map
+
+This map had shown the difference in average prison rate of AAPI and White for each county.
+
+On The map was drawn by counties to help us spot specific counties which most bias on AAPI prison incarceration.
+
+The more **red** the county shape, the **higher** the AAPI prison rate compare to White, vice versa.
+
+We can see that there are a few county with absolute **red** *(biased toward White with higher AAPI prison rate)* on the east side of the U.S. and an absolute **no red** county *(biased toward AAPI with higher White prison rate)* near the center part.
+
+There're also a few state lack of data and marked as gray on the map.
+```{r map,echo=FALSE}
+plot(map)
+```
